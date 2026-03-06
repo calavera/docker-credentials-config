@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release-pr:
+    name: Create release PR
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'calavera' }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run release-plz
+        uses: MarcoIeni/release-plz-action@v0.5
+        with:
+          command: release-pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    name: Publish to crates.io
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'calavera' }}
+    permissions:
+      contents: write
+      id-token: write # required for crates.io trusted publishing
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run release-plz
+        uses: MarcoIeni/release-plz-action@v0.5
+        with:
+          command: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,14 @@
+target
+tools
+test/**/Cargo.lock
+dist
+.vscode
+build
+node_modules
+.pnpm-debug.log
+test/integration
+.DS_Store
+docs/.vitepress/cache
+docs/public/latest-version.json
+.idea
+Cargo.lock
