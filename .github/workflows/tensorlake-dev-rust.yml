@@ -12,7 +12,8 @@ concurrency:
 
 jobs:
   build:
-    runs-on: tensorlake-medium
+    # The dev runner service serves only jobs with tensorlake-dev-env.
+    runs-on: [tensorlake-medium, tensorlake-dev-env]
     timeout-minutes: 60
     steps:
       - name: Check out source
